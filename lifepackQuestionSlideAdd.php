@@ -19,6 +19,8 @@
 	<!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 	<link href="plugins/apex/apexcharts.css" rel="stylesheet" type="text/css">
 	<link href="assets/css/dashboard/dash_1.css" rel="stylesheet" type="text/css" />
+	<link href="plugins/file-upload/file-upload-with-preview.min.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/scrollspyNav.css" rel="stylesheet" type="text/css" />
 	<!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
 </head>
@@ -204,33 +206,24 @@
 										<label class="control-label"> Question Description </label>
 										<textarea type="text" name="desc" id="desc" class="form-control"> </textarea>
 									</div>
-									<div id="boxOptions">
+
 									<div class="form-group mb-4">
-										<label class="control-label">Option 1 </label>
-										<input type="text" name="option1" id="option1" class="form-control">
+										<label class="control-label">Value Initial </label>
+										<input type="number" name="valueInitial" id="valueInitial" class="form-control">
 									</div>
 
 									<div class="form-group mb-4">
-										<label class="control-label">Option 2 </label>
-										<input type="text" name="option2" id="option2" class="form-control">
+										<label class="control-label">Value Final </label>
+										<input type="number" name="valueFinal" id="valueFinal" class="form-control">
 									</div>
-									<div class="form-group mb-4">
-										<label class="control-label">Option 3</label>
-										<input type="text" name="option3" id="option3" class="form-control">
-									</div>
-										<div class="form-group mb-4">
-											<label class="control-label">Option 4</label>
-											<input type="text" name="option4" id="option4" class="form-control">
-										</div>
-									</div>
+
 
 									<div class="form-group mb-4">
 										<label class="control-label">Answer</label>
 										<input type="text" name="answer" id="answer" class="form-control">
 									</div>
-									<button type="submit" id="lpAddBtn" class="btn btn-primary float-right ml-4">Add</button>
+									<button type="submit" id="lpAddBtnRange" class="btn btn-primary float-right ml-4">Add</button>
 									<button class="btn btn-danger float-right ml-10"><i class="flaticon-cancel-12"></i> Discard</button>
-									<button class="btn float-right ml-4" id="addOption"><i class="flaticon-cancel-12"></i> Add Option</button>
 								</form>
 							</div>
 						</div>
@@ -255,6 +248,7 @@
 	<script src="plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/app.js"></script>
 
+	<script src="plugins/file-upload/file-upload-with-preview.min.js"></script>
 	<script>
 		$(document).ready(function() {
 			App.init();

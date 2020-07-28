@@ -19,6 +19,8 @@
 	<!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 	<link href="plugins/apex/apexcharts.css" rel="stylesheet" type="text/css">
 	<link href="assets/css/dashboard/dash_1.css" rel="stylesheet" type="text/css" />
+	<link href="plugins/file-upload/file-upload-with-preview.min.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/scrollspyNav.css" rel="stylesheet" type="text/css" />
 	<!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
 
 </head>
@@ -204,31 +206,51 @@
 										<label class="control-label"> Question Description </label>
 										<textarea type="text" name="desc" id="desc" class="form-control"> </textarea>
 									</div>
+									<div id="boxText">
+										<div class="form-group mb-4">
+											<textarea type="text" name="blankText" id="blankText" class="form-control"> </textarea>
+										</div>
+									</div>
 									<div id="boxOptions">
-									<div class="form-group mb-4">
-										<label class="control-label">Option 1 </label>
-										<input type="text" name="option1" id="option1" class="form-control">
-									</div>
+										<div class="form-group mb-4">
+											<label class="control-label">Option 1 </label>
+											<input type="text" name="option1" id="option1" class="form-control">
+										</div>
 
-									<div class="form-group mb-4">
-										<label class="control-label">Option 2 </label>
-										<input type="text" name="option2" id="option2" class="form-control">
-									</div>
-									<div class="form-group mb-4">
-										<label class="control-label">Option 3</label>
-										<input type="text" name="option3" id="option3" class="form-control">
-									</div>
+										<div class="form-group mb-4">
+											<label class="control-label">Option 2 </label>
+											<input type="text" name="option2" id="option2" class="form-control">
+										</div>
+										<div class="form-group mb-4">
+											<label class="control-label">Option 3</label>
+											<input type="text" name="option3" id="option3" class="form-control">
+										</div>
 										<div class="form-group mb-4">
 											<label class="control-label">Option 4</label>
 											<input type="text" name="option4" id="option4" class="form-control">
 										</div>
 									</div>
-
+									<div class="types-input">
+										<button id="type1" class="btn  float-left ml-4 mb-4">Type 1</button>
+										<button id="type2" class="btn  float-left ml-4">Type 2</button>
+									</div>
+									<br><br><br>
+									<div class="custom-file-container" data-upload-id="myFirstImage" id="audioPhoto">
+										<label>Upload Audio <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
+										<label class="custom-file-container__custom-file">
+											<input type="file" class="custom-file-container__custom-file__custom-file-input"  accept="audio/*" id="fileImageQuestion">
+											<input type="hidden" name="MAX_FILE_SIZE" value="10485760" id="fileImage" />
+											<span class="custom-file-container__custom-file__custom-file-control"></span>
+										</label>
+										<div class="custom-file-container__image-preview"></div>
+									</div>
+									<br><br><br>
 									<div class="form-group mb-4">
 										<label class="control-label">Answer</label>
 										<input type="text" name="answer" id="answer" class="form-control">
 									</div>
-									<button type="submit" id="lpAddBtn" class="btn btn-primary float-right ml-4">Add</button>
+									<button type="submit" id="lpAddBtnImage" class="btn btn-primary float-right ml-4">Add</button>
+									<div style="display:none" id="load" class="spinner-border text-primary float-right ml-4"></div>	
 									<button class="btn btn-danger float-right ml-10"><i class="flaticon-cancel-12"></i> Discard</button>
 									<button class="btn float-right ml-4" id="addOption"><i class="flaticon-cancel-12"></i> Add Option</button>
 								</form>
@@ -254,11 +276,37 @@
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/app.js"></script>
-
+	
+	<script src="plugins/file-upload/file-upload-with-preview.min.js"></script>
 	<script>
 		$(document).ready(function() {
 			App.init();
+			var firstUpload = new FileUploadWithPreview('myFirstImage')
+			$('#boxOptions').css('display', 'none');
+			$('#boxText').css('display', 'none');
+			n = document.querySelector('#audioPhoto');
+			$('#type1').click((e) => {
+				e.preventDefault();
+				$('#boxOptions').slideDown();
+				$('#boxText').slideUp();
+				$('#type1').attr('class', 'btn  btn-secondary float-left ml-4 mb-4')
+				
+				$('#type2').attr('class', 'btn float-left ml-4 mb-4')
+
+			});
+
+			$('#type2').click((e) => {
+				e.preventDefault();
+				$('#boxText').slideDown();
+				$('#boxOptions').slideUp();
+				
+				$('#type1').attr('class', 'btn float-left ml-4 mb-4')
+				
+				$('#type2').attr('class', 'btn  btn-secondary float-left ml-4 mb-4')
+			});
 		});
+
+		
 	</script>
 	<script src="assets/js/custom.js"></script>
 	<!-- END GLOBAL MANDATORY SCRIPTS -->
