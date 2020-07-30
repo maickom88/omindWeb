@@ -10,7 +10,6 @@ auth.onAuthStateChanged(user => {
 });
 
 var n = auth.currentUser;
-print(n);
 
 
 //Logout
@@ -24,6 +23,7 @@ logoutbtn.addEventListener('click', (e) => {
 
 
 var numberOption = 4;
+
 
 
 $('#addOption').click((e) => {
@@ -42,7 +42,6 @@ var btnRangeSlide = document.querySelector("#lpAddBtnRange");
 if (btn != null) {
     btn.addEventListener('click', async(e) => {
         e.preventDefault();
-
         boxOptions = document.querySelector('#boxOptions');
         quantOptions = boxOptions.querySelectorAll('div');
         var type = sessionStorage.getItem('option');
@@ -57,7 +56,18 @@ if (btn != null) {
         for (let index = 0; index < quantOptions.length; index++) {
             listOptions.push(quantOptions[index].querySelector('input').value);
         }
-        db.collection('Lifepacks').doc('RDCEEILSCoY0eHd8ncUb').collection('Questions').add({
+        var lifpacksSelects = document.querySelector('.assings-packs');
+        var selects = lifpacksSelects.querySelectorAll('.selectPacks');
+        for (let index = 0; index < selects.length; index++) {
+            db.collection('Lifepacks').doc(selects[index].value).collection('Questions').add({
+                nameQuestion: nameQuestion,
+                desQuestion: descQuestion,
+                listOptions,
+                answer: answer,
+                type: type
+            });
+        };
+        db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
             nameQuestion: nameQuestion,
             desQuestion: descQuestion,
             listOptions,
@@ -87,7 +97,6 @@ async function uploadImage() {
         ).catch(console.error);
     return urlImage;
 }
-
 //if input form is type image
 if (btnImg != null) {
     btnImg.addEventListener('click', async(e) => {
@@ -110,7 +119,7 @@ if (btnImg != null) {
             listOptions.push(quantOptions[index].querySelector('input').value);
         }
         if (blankQuestion == ' ') {
-            db.collection('Lifepacks').doc('RDCEEILSCoY0eHd8ncUb').collection('Questions').add({
+            db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
                 nameQuestion: nameQuestion,
                 desQuestion: descQuestion,
                 listOptions,
@@ -121,7 +130,7 @@ if (btnImg != null) {
                 window.location.href = "lifepack.php";
             });
         } else {
-            db.collection('Lifepacks').doc('RDCEEILSCoY0eHd8ncUb').collection('Questions').add({
+            db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
                 nameQuestion: nameQuestion,
                 desQuestion: descQuestion,
                 blankQuestion: blankQuestion,
@@ -149,7 +158,7 @@ if (btnRangeSlide != null) {
         var valueFinal = document.querySelector('#valueFinal').value;
         var answer = document.querySelector('#answer').value;
 
-        db.collection('Lifepacks').doc('RDCEEILSCoY0eHd8ncUb').collection('Questions').add({
+        db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
             nameQuestion: nameQuestion,
             desQuestion: descQuestion,
             valueInitial: filterInt(valueInitial),

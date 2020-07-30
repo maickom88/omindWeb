@@ -205,19 +205,19 @@
 										<textarea type="text" name="desc" id="desc" class="form-control"> </textarea>
 									</div>
 									<div id="boxOptions">
-									<div class="form-group mb-4">
-										<label class="control-label">Option 1 </label>
-										<input type="text" name="option1" id="option1" class="form-control">
-									</div>
+										<div class="form-group mb-4">
+											<label class="control-label">Option 1 </label>
+											<input type="text" name="option1" id="option1" class="form-control">
+										</div>
 
-									<div class="form-group mb-4">
-										<label class="control-label">Option 2 </label>
-										<input type="text" name="option2" id="option2" class="form-control">
-									</div>
-									<div class="form-group mb-4">
-										<label class="control-label">Option 3</label>
-										<input type="text" name="option3" id="option3" class="form-control">
-									</div>
+										<div class="form-group mb-4">
+											<label class="control-label">Option 2 </label>
+											<input type="text" name="option2" id="option2" class="form-control">
+										</div>
+										<div class="form-group mb-4">
+											<label class="control-label">Option 3</label>
+											<input type="text" name="option3" id="option3" class="form-control">
+										</div>
 										<div class="form-group mb-4">
 											<label class="control-label">Option 4</label>
 											<input type="text" name="option4" id="option4" class="form-control">
@@ -228,26 +228,32 @@
 										<label class="control-label">Answer</label>
 										<input type="text" name="answer" id="answer" class="form-control">
 									</div>
-									<button type="submit" id="lpAddBtn" class="btn btn-primary float-right ml-4">Add</button>
-									<button class="btn btn-danger float-right ml-10"><i class="flaticon-cancel-12"></i> Discard</button>
-									<button class="btn float-right ml-4" id="addOption"><i class="flaticon-cancel-12"></i> Add Option</button>
+									<div class="assings-packs">
+										<div class="form-group mb-4">
+											<label for="exampleFormControlSelect1">Assigns to</label>
+											<select class="form-control selectPacks" id="selectPacks1" name="selectPacks1">
+										
+											</select>
+										</div>
+									</div>
+									<button class="btn float-left ml-4" id="addPacks"><i class="flaticon-cancel-12"></i>Assigns more</button>
+									<br>
+									<div class="mt-4 float-right">
+										<button type="submit" id="lpAddBtn" class="btn btn-primary float-right ml-4">Add</button>
+										<button class="btn btn-danger float-right ml-10"><i class="flaticon-cancel-12"></i> Discard</button>
+										<button class="btn float-right ml-4" id="addOption"><i class="flaticon-cancel-12"></i> Add Option</button>
+									</div>
 								</form>
 							</div>
 						</div>
 					</div>
 				</div>
-
-
-
-
 				<!-- CONTENT AREA -->
-
 			</div>
 		</div>
 		<!--  END CONTENT AREA  -->
 	</div>
 	<!-- END MAIN CONTAINER -->
-
 	<!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
 	<script src="assets/js/libs/jquery-3.1.1.min.js"></script>
 	<script src="bootstrap/js/popper.min.js"></script>
@@ -259,6 +265,19 @@
 		$(document).ready(function() {
 			App.init();
 		});
+		i = 1;
+		$('#addPacks').click((e) => {
+			e.preventDefault();
+
+			$('.assings-packs').append('<div id="selectPacks' + (i + 1) + '" class="form-group"><label for="exampleFormControlSelect1">select other user</label><select class="form-control selectPacks"  name="selectPacks' + (i + 1) + '"></select><span onclick=(removePacks(' + (i + 1) + ')) class="float-right mt-2 mb-3 badge outline-badge-danger">Remove</span></div>');
+			i++;
+			getLifepacks()
+		});
+
+		function removePacks(id) {
+			$('#selectPacks' + id).remove();
+		}
+
 	</script>
 	<script src="assets/js/custom.js"></script>
 	<!-- END GLOBAL MANDATORY SCRIPTS -->

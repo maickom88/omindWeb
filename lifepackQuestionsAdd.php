@@ -218,11 +218,7 @@
 
 									</div>
 
-									<div class="form-group">
-										<label for="exampleFormControlSelect1">select the user</label>
-										<select class="form-control" id="selectUser" name="selectUser">
-										</select>
-									</div>
+								
 									<button type="submit" class="btn mt-4 float-right" id="lifepack-btn" style="background-color: #f49617;color: aliceblue;">Next</button>
 								</form>
 							</div>

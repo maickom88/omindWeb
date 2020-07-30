@@ -26,16 +26,42 @@
 	firebase.analytics();
 	const auth = firebase.auth();
 	const db = firebase.firestore();
-	var select = document.querySelector('#selectUser');
-	db.collection("Users").get()
-		.then(function(querySnapshot) {
-			querySnapshot.forEach(function(doc) {
-				var op = new Option(doc.data().email, doc.data().email)
-				console.log(doc.id, " => ", doc.data().email);
-				select.append(op);
+
+	function getUsers() {
+		var select = document.querySelectorAll('.selectUser');
+		db.collection("Users").get()
+			.then(function(querySnapshot) {
+				querySnapshot.forEach(function(doc) {
+					var op = new Option(doc.data().email, doc.data().email)
+
+					select.forEach((s) => {
+						s.append(op);
+					});
+				});
+			})
+			.catch(function(error) {
+				console.log("Error getting documents: ", error);
 			});
-		})
-		.catch(function(error) {
-			console.log("Error getting documents: ", error);
-		});
+	}
+
+	function getLifepacks() {
+		var select = document.querySelectorAll('.selectPacks');
+		db.collection("Lifepacks").get()
+			.then(function(querySnapshot) {
+				querySnapshot.forEach(function(doc) {
+					var op = new Option(doc.data().LifePackName, doc.id);
+					select.forEach((s) => {
+						s.append(op);
+					});
+				});
+			})
+			.catch(function(error) {
+				console.log("Error getting documents: ", error);
+			});
+	}
+
+	
+
+	getLifepacks();
+	getUsers();
 </script>
