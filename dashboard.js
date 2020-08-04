@@ -105,15 +105,12 @@ async function renderLifePack(doc) {
             p.append(' | ' + lp.users[index]);
         }
     }
-    for (let index = 0; index < 3; index++) {
-
-    }
 
     var questions;
     await db.collection("Lifepacks").doc(doc.id).collection('Questions').get()
         .then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                if (doc.data() != null) {
+            querySnapshot.forEach((doc) => {
+                if (doc != null) {
                     questions = doc;
                 }
             });
@@ -121,8 +118,6 @@ async function renderLifePack(doc) {
         .catch(function(error) {
             console.log("Error getting documents: ", error);
         });
-
-    console.log(questions.id);
 
     let div2 = document.createElement('div');
     div2.classList.add('media-notation', 'float-right');

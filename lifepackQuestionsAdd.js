@@ -59,13 +59,15 @@ if (btn != null) {
         var lifpacksSelects = document.querySelector('.assings-packs');
         var selects = lifpacksSelects.querySelectorAll('.selectPacks');
         for (let index = 0; index < selects.length; index++) {
-            db.collection('Lifepacks').doc(selects[index].value).collection('Questions').add({
-                nameQuestion: nameQuestion,
-                desQuestion: descQuestion,
-                listOptions,
-                answer: answer,
-                type: type
-            });
+            if (localStorage.getItem('dataId') != selects[index].value) {
+                db.collection('Lifepacks').doc(selects[index].value).collection('Questions').add({
+                    nameQuestion: nameQuestion,
+                    desQuestion: descQuestion,
+                    listOptions,
+                    answer: answer,
+                    type: type
+                });
+            }
         };
         db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
             nameQuestion: nameQuestion,
@@ -161,8 +163,8 @@ if (btnRangeSlide != null) {
         db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
             nameQuestion: nameQuestion,
             desQuestion: descQuestion,
-            valueInitial: filterInt(valueInitial),
-            valueFinal: filterInt(valueFinal),
+            valueInitial: valueInitial,
+            valueFinal: valueFinal,
             answer: answer,
             type: type
         }).then(() => {
