@@ -1,11 +1,11 @@
 //Listen for Auth staus changes
 auth.onAuthStateChanged(user => {
-    if(user){
-        console.log('User logged in: ',user);
+    if (user) {
+        console.log('User logged in: ', user);
 
-    }else{
+    } else {
         console.log('User logged out ');
-        window.location.href="auth_login.php";
+        window.location.href = "auth_login.php";
     }
 });
 
@@ -13,15 +13,98 @@ auth.onAuthStateChanged(user => {
 //Logout
 const logoutbtn = document.querySelector('#logout');
 
-logoutbtn.addEventListener('click',(e)=>{
-  e.preventDefault();
+logoutbtn.addEventListener('click', (e) => {
+    e.preventDefault();
     auth.signOut();
 
 });
 
+dataIdDocument = localStorage.getItem('dataId');
 
+function getQuestionPack() {
 
+    if (dataIdDocument) {
 
+        db.collection("Lifepacks").doc(dataIdDocument).collection('Questions').get()
+            .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    if (doc) {
+                        $('#cards-pack').append('<div class="card component-card_1 mb-3"><div class="card-body"><div class="row"><div class="col-9"><h5 class="card-title">' + doc.data().nameQuestion + '</h5><h7 class="card-text">' + doc.data().type + '</h7>	<p class="card-text">' + doc.data().desQuestion + '</p></div><div class="col-3 text-center"><div class="dropdown dropup custom-dropdown"><a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu" aria-labelledby="dropdownMenuLink-1"><a class="dropdown-item" onclick="editQuestion(' + doc.id + ')">Edit</a><a class="dropdown-item" onclick=deleteQuestion("' + doc.id + '")>Delete</a></div></div></div></div></div></div>');
+
+                    }
+                });
+            })
+            .catch(function(error) {
+                console.log("Error getting documents: ", error);
+            });
+    }
+}
+
+function getQuestionPackUsers() {
+    if (dataIdDocument) {
+
+        db.collection("Lifepacks").doc(dataIdDocument).get()
+            .then(function(querySnapshot) {
+                var users = querySnapshot.data().users;
+                console.log(users);
+                users.forEach((user) => {
+                    $('.users-quesitons-saved').append('<div id="user' + (i + 1) + '" class="form-group"><label id="userActive" for="exampleFormControlSelect1">' + user + '</label><span onclick=(removeUser(' + (i + 1) + ')) class="float-right mt-2 mb-3 badge outline-badge-danger">Remove</span></div>');
+                });
+            })
+            .catch(function(error) {
+                console.log("Error getting documents: ", error);
+            });
+    }
+}
+
+async function deleteQuestion(id) {
+    await db.collection('Lifepacks').doc(dataIdDocument).collection('Questions').doc(id).collection('Answers').delete();
+    await db.collection('Lifepacks').doc(dataIdDocument).collection('Questions').doc(id).delete();
+    window.location.href = "lifepackQuestions.php";
+}
+
+function editQuestion(id) {
+
+}
+getQuestionPackUsers();
+getQuestionPack();
+
+function removeUser(id) {
+    $('#user' + id).remove();
+    addUser();
+}
+
+function addUser() {
+    var listUser = [];
+    var select = document.querySelector('.selectUser');
+    var userActive = document.querySelector('#userActive');
+    if (userActive.length > 0) {
+        for (let index = 0; index < userActive.length; index++) {
+            listUser.push(userActive[0].textContent);
+        }
+    } else {
+        listUser.push(userActive.textContent);
+    }
+
+    console.log(listUser);
+    console.log(userActive);
+    if (select != null) {
+        listUser.push(select.value);
+        console.log(listUser);
+        db.collection('Lifepacks').doc(dataIdDocument).update({
+            users: listUser
+        }).then(() => {
+            window.location.href = "lifepackQuestions.php";
+        });
+    } else {
+        db.collection('Lifepacks').doc(dataIdDocument).update({
+            users: listUser
+        }).then(() => {
+            window.location.href = "lifepackQuestions.php";
+        });
+    }
+
+}
 
 //    // real-time listener
 //    db.collection('Lifepacks').collection('Questions').onSnapshot(snapshot => {
@@ -97,10 +180,10 @@ logoutbtn.addEventListener('click',(e)=>{
 //         e.stopPropagation();
 //      //get data-id attribute in plain Javascript
 //       var dataID = li.getAttribute('data-id');
- 
+
 //      //get data-id 
 //      db.collection('Lifepacks').doc(dataID).documentSnapshot.;
-    
+
 //   });
 
 //   //Add Question Page
@@ -119,5 +202,5 @@ logoutbtn.addEventListener('click',(e)=>{
 
 
 
-let dataId = localStorage.getItem("dataId");  
+let dataId = localStorage.getItem("dataId");
 console.log(dataId);

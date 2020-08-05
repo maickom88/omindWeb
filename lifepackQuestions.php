@@ -14,6 +14,9 @@
 	<link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<link href="assets/css/plugins.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/scrollspyNav.css" rel="stylesheet" type="text/css" />
+
+	<link href="assets/css/elements/miscellaneous.css" rel="stylesheet" type="text/css" />
 	<!-- END GLOBAL MANDATORY STYLES -->
 
 	<!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
@@ -200,28 +203,35 @@
 							<div class="col">
 								<div class="widget-heading col-lg-8">
 									<h6 class="">Questions </h6>
-									
-
-
-									
 								</div>
 							</div>
 							<div class="col-lg-4">
 								<a href="lifepackQuestionsAdd.php"><button id="lpqAdd" class="btn mb-2 float-right" style="background-color: #f49617;color: aliceblue;">Add Question</button></a>
 							</div>
 						</div>
+
 						<div class="row">
-							<div class="container">
-								<ul class="list-group list-group-icons-meta lifepacks" id="lifepackList">
-								</ul>
+							<div class="container mb-2">
+								<div class="users-quesitons-saved">
+
+								</div>
+								<br>
+								<button class="btn btn-success float-left mb-4" id="addUsers"><i class="flaticon-cancel-12"></i> Add more users</button>
+
+							</div>
+							<div class="container mb-2" id="cards-pack">
+
 							</div>
 						</div>
+
 					</div>
 				</div>
-				<!-- CONTENT AREA -->
 			</div>
 		</div>
-		<!--  END CONTENT AREA  -->
+		<!-- CONTENT AREA -->
+	</div>
+	</div>
+	<!--  END CONTENT AREA  -->
 	</div>
 	<!-- END MAIN CONTAINER -->
 
@@ -231,11 +241,21 @@
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 	<script src="assets/js/app.js"></script>
-
+	<script src="assets/js/scrollspyNav.js"></script>
 	<script>
 		$(document).ready(function() {
 			App.init();
 		});
+		i = 1;
+		$('#addUsers').click((e) => {
+			e.preventDefault();
+
+			$('.users-quesitons-saved').append('<div id="selectUser' + (i + 1) + '" class="form-group"><label for="exampleFormControlSelect1">select other user</label><select class="form-control selectUser"  name="selectUser' + (i + 1) + '"></select><span onclick=addUser() class="float-right mt-2 mb-3 badge outline-badge-warning">Add User</span></div>');
+			i++;
+			getUsers();
+		});
+
+
 	
 	</script>
 	<script src="assets/js/custom.js"></script>
