@@ -158,6 +158,9 @@ if (btnRangeSlide != null) {
         var descQuestion = document.querySelector('#desc').value;
         var valueInitial = document.querySelector('#valueInitial').value;
         var valueFinal = document.querySelector('#valueFinal').value;
+        var valueStringInitial = document.querySelector('#valueStringInitial').value;
+        var valueStringMedium = document.querySelector('#valueStringMedium').value;
+        var valueStringFinal = document.querySelector('#valueStringFinal').value;
         var answer = document.querySelector('#answer').value;
 
         db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
@@ -165,6 +168,9 @@ if (btnRangeSlide != null) {
             desQuestion: descQuestion,
             valueInitial: valueInitial,
             valueFinal: valueFinal,
+            valueStringInitial: valueStringInitial,
+            valueStringMedium: valueStringMedium,
+            valueStringFinal: valueStringFinal,
             answer: answer,
             type: type
         }).then(() => {

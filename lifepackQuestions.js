@@ -58,7 +58,13 @@ function getQuestionPackUsers() {
 }
 
 async function deleteQuestion(id) {
-    await db.collection('Lifepacks').doc(dataIdDocument).collection('Questions').doc(id).collection('Answers').delete();
+    anwswers = await db.collection('Lifepacks').doc(dataIdDocument).collection('Questions').doc(id).collection('Answers').get();
+    anwswers.forEach((doc) => {
+        anwswers = doc.id
+    });
+    if (typeof(anwswers) == 'string') {
+        await db.collection('Lifepacks').doc(dataIdDocument).collection('Questions').doc(id).collection('Answers').delete();
+    }
     await db.collection('Lifepacks').doc(dataIdDocument).collection('Questions').doc(id).delete();
     window.location.href = "lifepackQuestions.php";
 }

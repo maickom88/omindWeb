@@ -216,6 +216,22 @@
 										<label class="control-label">Value Final </label>
 										<input type="number" name="valueFinal" id="valueFinal" class="form-control">
 									</div>
+									<div class="container">
+										<div class="row">
+											<div class="form-group mb-4 mr-4">
+												<label class="control-label">Value String Inital </label>
+												<input type="text" maxlength="10" name="valueStringInitial" id="valueStringInitial" class="form-control">
+											</div>
+											<div class="form-group mb-4 mr-4">
+												<label class="control-label">Value String Medium </label>
+												<input type="text" maxlength="10" name="valueStringMedium" id="valueStringMedium" class="form-control">
+											</div>
+											<div class="form-group mb-4 mr-4">
+												<label class="control-label">Value String Final </label>
+												<input type="text" maxlength="10" name="valueStringFinal" id="valueStringFinal" class="form-control">
+											</div>
+										</div>
+									</div>
 
 
 									<div class="form-group mb-4">
