@@ -51,6 +51,9 @@ if (btn != null) {
         var option2 = document.querySelector('#option2').value;
         var option3 = document.querySelector('#option3').value;
         var option4 = document.querySelector('#option4').value;
+        if (type == 'Timer Question') {
+            var timer = document.querySelector('#timer').value;
+        }
         var answer = document.querySelector('#answer').value;
         var listOptions = [];
         for (let index = 0; index < quantOptions.length; index++) {
@@ -59,25 +62,52 @@ if (btn != null) {
         var lifpacksSelects = document.querySelector('.assings-packs');
         var selects = lifpacksSelects.querySelectorAll('.selectPacks');
         for (let index = 0; index < selects.length; index++) {
-            if (localStorage.getItem('dataId') != selects[index].value) {
-                db.collection('Lifepacks').doc(selects[index].value).collection('Questions').add({
-                    nameQuestion: nameQuestion,
-                    desQuestion: descQuestion,
-                    listOptions,
-                    answer: answer,
-                    type: type
-                });
+            if (timer != null) {
+                if (localStorage.getItem('dataId') != selects[index].value) {
+                    db.collection('Lifepacks').doc(selects[index].value).collection('Questions').add({
+                        nameQuestion: nameQuestion,
+                        desQuestion: descQuestion,
+                        listOptions,
+                        timer: timer,
+                        answer: answer,
+                        type: type
+                    });
+                }
+            } else {
+                if (localStorage.getItem('dataId') != selects[index].value) {
+                    db.collection('Lifepacks').doc(selects[index].value).collection('Questions').add({
+                        nameQuestion: nameQuestion,
+                        desQuestion: descQuestion,
+                        listOptions,
+                        answer: answer,
+                        type: type
+                    });
+                }
             }
         };
-        db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
-            nameQuestion: nameQuestion,
-            desQuestion: descQuestion,
-            listOptions,
-            answer: answer,
-            type: type
-        }).then(() => {
-            window.location.href = "lifepack.php";
-        });
+        if (timer != null) {
+            db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
+                nameQuestion: nameQuestion,
+                desQuestion: descQuestion,
+                timer: timer,
+                listOptions,
+                answer: answer,
+                type: type
+            }).then(() => {
+                window.location.href = "lifepack.php";
+            });
+        } else {
+            db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
+                nameQuestion: nameQuestion,
+                desQuestion: descQuestion,
+                listOptions,
+                answer: answer,
+                type: type
+            }).then(() => {
+                window.location.href = "lifepack.php";
+            });
+        }
+
     });
 
 }
@@ -196,6 +226,8 @@ if (next != null) {
             window.location.href = "lifepackQuestionAudioAdd.php";
         } else if (optionType.value == 'Range Slider Question') {
             window.location.href = "lifepackQuestionSlideAdd.php";
+        } else if (optionType.value == 'Timer Question') {
+            window.location.href = "lifepackQuestionTimerAdd.php";
         }
 
     });
