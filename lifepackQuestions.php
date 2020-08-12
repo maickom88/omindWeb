@@ -258,6 +258,7 @@
 			getUsers();
 
 			$('.users-quesitons-saved').attr('class','none');
+			$('#addUsers').css('display','none');
 		});
 
 

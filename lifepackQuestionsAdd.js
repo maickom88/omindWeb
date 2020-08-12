@@ -24,7 +24,84 @@ logoutbtn.addEventListener('click', (e) => {
 
 var numberOption = 4;
 
+var idDocQuestion = localStorage.getItem('idDocQuestion');
+if (idDocQuestion != null) {
+    console.log(idDocQuestion);
+    loadQuestion(idDocQuestion);
 
+}
+
+function loadQuestion(idDoc) {
+    var docRefLife = localStorage.getItem("dataId");
+    db.collection("Lifepacks").doc(docRefLife).collection('Questions').doc(idDoc).get()
+        .then(function(doc) {
+            var type = doc.data().type;
+            if (type == 'Mcq Questions') {
+                document.querySelector('#nameQuestion').value = doc.data().nameQuestion;
+                document.querySelector('#desc').value = doc.data().desQuestion;
+                document.querySelector('#answer').value = doc.data().answer;
+                listOp = doc.data().listOptions;
+                console.log(listOp);
+                for (let index = 0; index < listOp.length; index++) {
+
+                    document.querySelector('#option' + (index + 1)).value = listOp[index];
+                    if (index > 3) {
+                        var add = document.querySelector('#addOption');
+                        add.click();
+                    }
+                }
+
+            } else if (type == 'Timer Question') {
+                document.querySelector('#nameQuestion').value = doc.data().nameQuestion;
+                document.querySelector('#desc').value = doc.data().desQuestion;
+                document.querySelector('#timer').value = doc.data().timer;
+                document.querySelector('#answer').value = doc.data().answer;
+                listOp = doc.data().listOptions;
+                console.log(listOp);
+                for (let index = 0; index < listOp.length; index++) {
+
+                    document.querySelector('#option' + (index + 1)).value = listOp[index];
+                    if (index > 3) {
+                        var add = document.querySelector('#addOption');
+                        add.click();
+                    }
+                }
+
+            } else if (type == 'Range Slider Question') {
+                document.querySelector('#nameQuestion').value = doc.data().nameQuestion;
+                document.querySelector('#desc').value = doc.data().desQuestion;
+                document.querySelector('#valueInitial').value = doc.data().valueInitial;
+                document.querySelector('#valueFinal').value = doc.data().valueFinal;
+                document.querySelector('#valueStringInitial').value = doc.data().valueStringInitial;
+                document.querySelector('#valueStringFinal').value = doc.data().valueStringFinal;
+                document.querySelector('#valueStringMedium').value = doc.data().valueStringMedium;
+                document.querySelector('#answer').value = doc.data().answer;
+            } else if (type == 'Image Type Question' || type == 'Audio Type Question') {
+                document.querySelector('#nameQuestion').value = doc.data().nameQuestion;
+                document.querySelector('#desc').value = doc.data().desQuestion;
+                document.querySelector('#answer').value = doc.data().answer;
+                if (doc.data().listOptions != null) {
+                    $('#boxOptions').slideDown();
+                    listOp = doc.data().listOptions;
+                    console.log(listOp);
+                    for (let index = 0; index < listOp.length; index++) {
+
+                        document.querySelector('#option' + (index + 1)).value = listOp[index];
+                        if (index > 3) {
+                            var add = document.querySelector('#addOption');
+                            add.click();
+                        }
+                    }
+                } else {
+                    $('#boxText').slideDown();
+                    document.querySelector('#blankText').value = doc.data().blankText;
+                }
+            }
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+}
 
 $('#addOption').click((e) => {
     e.preventDefault();

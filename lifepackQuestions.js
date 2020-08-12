@@ -27,10 +27,11 @@ function getQuestionPack() {
 
         db.collection("Lifepacks").doc(dataIdDocument).collection('Questions').get()
             .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
+                querySnapshot.forEach(async function(doc) {
                     if (doc) {
-                        $('#cards-pack').append('<div class="card component-card_1 mb-3"><div class="card-body"><div class="row"><div class="col-9"><h5 class="card-title">' + doc.data().nameQuestion + '</h5><h7 class="card-text">' + doc.data().type + '</h7>	<p class="card-text">' + doc.data().desQuestion + '</p></div><div class="col-3 text-center"><div class="dropdown dropup custom-dropdown"><a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu" aria-labelledby="dropdownMenuLink-1"><a class="dropdown-item" onclick="editQuestion(' + doc.id + ')">Edit</a><a class="dropdown-item" onclick=deleteQuestion("' + doc.id + '")>Delete</a></div></div></div></div></div></div>');
+                        type = doc.data().type;
 
+                        await $('#cards-pack').append('<div class="card component-card_1 mb-3"><div id="' + doc.id + '" data-type="' + type + '" class="card-body"><div class="row"><div class="col-9"><h5 class="card-title">' + doc.data().nameQuestion + '</h5><h7 class="card-text">' + doc.data().type + '</h7>	<p class="card-text">' + doc.data().desQuestion + '</p></div><div class="col-3 text-center"><div class="dropdown dropup custom-dropdown"><a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu" aria-labelledby="dropdownMenuLink-1"><a class="dropdown-item" onclick=editQuestion("' + doc.id + '")>Edit</a><a   class="dropdown-item" onclick=deleteQuestion("' + doc.id + '")>Delete</a></div></div></div></div></div></div>');
                     }
                 });
             })
@@ -60,11 +61,34 @@ function getQuestionPackUsers() {
     }
 }
 
+function editQuestion(id) {
+
+
+    var type = $('#' + id).attr('data-type');
+
+    localStorage.setItem('idDocQuestion', id);
+    console.log(localStorage.getItem('idDocQuestion'));
+
+    if (type == 'Mcq Questions') {
+        window.location.href = "lifepackquestionAdd1.php";
+    } else if (type == 'Image Type Question') {
+        window.location.href = "lifepackQuestionImageAdd.php";
+    } else if (type == 'Audio Type Question') {
+        window.location.href = "lifepackQuestionAudioAdd.php";
+    } else if (type == 'Range Slider Question') {
+        window.location.href = "lifepackQuestionSlideAdd.php";
+    } else if (type == 'Timer Question') {
+        window.location.href = "lifepackQuestionTimerAdd.php";
+    }
+}
+
+
 async function deleteQuestion(id) {
     anwswers = await db.collection('Lifepacks').doc(dataIdDocument).collection('Questions').doc(id).collection('Answers').get();
     anwswers.forEach((doc) => {
         anwswers = doc.id
     });
+    console.log(anwswers);
     if (typeof(anwswers) == 'string') {
         await db.collection('Lifepacks').doc(dataIdDocument).collection('Questions').doc(id).collection('Answers').delete();
     }
@@ -72,9 +96,7 @@ async function deleteQuestion(id) {
     window.location.href = "lifepackQuestions.php";
 }
 
-function editQuestion(id) {
 
-}
 getQuestionPackUsers();
 getQuestionPack();
 
