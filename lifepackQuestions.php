@@ -249,10 +249,15 @@
 		i = 1;
 		$('#addUsers').click((e) => {
 			e.preventDefault();
-
+			
+			$('#addUsers').attr('class','btn btn-disabled float-left mb-4');
+			
+			
 			$('.users-quesitons-saved').append('<div id="selectUser' + (i + 1) + '" class="form-group"><label for="exampleFormControlSelect1">select other user</label><select class="form-control selectUser"  name="selectUser' + (i + 1) + '"></select><span onclick=addUser() class="float-right mt-2 mb-3 badge outline-badge-warning">Add User</span></div>');
 			i++;
 			getUsers();
+
+			$('.users-quesitons-saved').attr('class','none');
 		});
 
 

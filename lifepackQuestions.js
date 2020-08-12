@@ -45,10 +45,13 @@ function getQuestionPackUsers() {
 
         db.collection("Lifepacks").doc(dataIdDocument).get()
             .then(function(querySnapshot) {
+                i = 0;
                 var users = querySnapshot.data().users;
                 console.log(users);
                 users.forEach((user) => {
-                    $('.users-quesitons-saved').append('<div id="user' + (i + 1) + '" class="form-group"><label id="userActive" for="exampleFormControlSelect1">' + user + '</label><span onclick=(removeUser(' + (i + 1) + ')) class="float-right mt-2 mb-3 badge outline-badge-danger">Remove</span></div>');
+
+                    $('.users-quesitons-saved').append('<div id="user' + i + '" class="form-group"><label class="userActives" for="exampleFormControlSelect1">' + user + '</label><span onclick=(removeUser(' + i + ')) class="float-right  badge outline-badge-danger">Remove</span></div>');
+                    i++;
                 });
             })
             .catch(function(error) {
@@ -75,25 +78,25 @@ function editQuestion(id) {
 getQuestionPackUsers();
 getQuestionPack();
 
-function removeUser(id) {
-    $('#user' + id).remove();
+async function removeUser(id) {
+    await $('#user' + id).remove();
     addUser();
 }
 
 function addUser() {
     var listUser = [];
     var select = document.querySelector('.selectUser');
-    var userActive = document.querySelector('#userActive');
-    if (userActive.length > 0) {
-        for (let index = 0; index < userActive.length; index++) {
-            listUser.push(userActive[0].textContent);
+    var userActives = document.querySelectorAll('.userActives');
+    if (userActives.length > 0) {
+        for (let index = 0; index < userActives.length; index++) {
+            listUser.push(userActives[index].textContent);
         }
     } else {
-        listUser.push(userActive.textContent);
+        listUser.push(userActives.textContent);
     }
 
     console.log(listUser);
-    console.log(userActive);
+    console.log(userActives);
     if (select != null) {
         listUser.push(select.value);
         console.log(listUser);
