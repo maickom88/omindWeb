@@ -181,3 +181,10 @@ async function renderLifePack(doc) {
     });
 
 };
+
+
+function resetItems() {
+    localStorage.removeItem('idDocQuestion');
+    sessionStorage.removeItem('option');
+}
+resetItems();

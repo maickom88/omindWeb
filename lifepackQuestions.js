@@ -9,7 +9,6 @@ auth.onAuthStateChanged(user => {
     }
 });
 
-
 //Logout
 const logoutbtn = document.querySelector('#logout');
 
@@ -67,6 +66,8 @@ function editQuestion(id) {
     var type = $('#' + id).attr('data-type');
 
     localStorage.setItem('idDocQuestion', id);
+    sessionStorage.setItem('option', type);
+    console.log(type);
     console.log(localStorage.getItem('idDocQuestion'));
 
     if (type == 'Mcq Questions') {
@@ -90,7 +91,15 @@ async function deleteQuestion(id) {
     });
     console.log(anwswers);
     if (typeof(anwswers) == 'string') {
-        await db.collection('Lifepacks').doc(dataIdDocument).collection('Questions').doc(id).collection('Answers').delete();
+        await db.collection('Lifepacks').doc(dataIdDocument).collection('Questions').doc(id).collection('Answers').get().then(
+            (snapshots) => {
+                snapshots.forEach((doc) => {
+                    db.collection('Lifepacks').doc(dataIdDocument).collection('Questions').doc(id).collection('Answers').doc(doc.id).delete().catch((error) => {
+                        console.log(error);
+                    });
+                });
+            }
+        );
     }
     await db.collection('Lifepacks').doc(dataIdDocument).collection('Questions').doc(id).delete();
     window.location.href = "lifepackQuestions.php";
@@ -234,4 +243,9 @@ function addUser() {
 
 
 let dataId = localStorage.getItem("dataId");
-console.log(dataId);
+
+function resetItems() {
+    localStorage.removeItem('idDocQuestion');
+    sessionStorage.removeItem('option');
+}
+resetItems();

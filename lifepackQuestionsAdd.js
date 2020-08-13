@@ -43,12 +43,12 @@ function loadQuestion(idDoc) {
                 listOp = doc.data().listOptions;
                 console.log(listOp);
                 for (let index = 0; index < listOp.length; index++) {
-
-                    document.querySelector('#option' + (index + 1)).value = listOp[index];
                     if (index > 3) {
                         var add = document.querySelector('#addOption');
                         add.click();
                     }
+                    document.querySelector('#option' + (index + 1)).value = listOp[index];
+
                 }
 
             } else if (type == 'Timer Question') {
@@ -141,48 +141,97 @@ if (btn != null) {
         for (let index = 0; index < selects.length; index++) {
             if (timer != null) {
                 if (localStorage.getItem('dataId') != selects[index].value) {
-                    db.collection('Lifepacks').doc(selects[index].value).collection('Questions').add({
-                        nameQuestion: nameQuestion,
-                        desQuestion: descQuestion,
-                        listOptions,
-                        timer: timer,
-                        answer: answer,
-                        type: type
-                    });
+                    if (idDocQuestion != null) {
+                        db.collection('Lifepacks').doc(selects[index].value).collection('Questions').doc(idDocQuestion).update({
+                            nameQuestion: nameQuestion,
+                            desQuestion: descQuestion,
+                            listOptions,
+                            timer: timer,
+                            answer: answer,
+                            type: type
+                        });
+                    } else {
+                        db.collection('Lifepacks').doc(selects[index].value).collection('Questions').add({
+                            nameQuestion: nameQuestion,
+                            desQuestion: descQuestion,
+                            listOptions,
+                            timer: timer,
+                            answer: answer,
+                            type: type
+                        });
+                    }
+
                 }
             } else {
                 if (localStorage.getItem('dataId') != selects[index].value) {
-                    db.collection('Lifepacks').doc(selects[index].value).collection('Questions').add({
-                        nameQuestion: nameQuestion,
-                        desQuestion: descQuestion,
-                        listOptions,
-                        answer: answer,
-                        type: type
-                    });
+                    if (idDocQuestion != null) {
+                        db.collection('Lifepacks').doc(selects[index].value).collection('Questions').doc(idDocQuestion).update({
+                            nameQuestion: nameQuestion,
+                            desQuestion: descQuestion,
+                            listOptions,
+                            answer: answer,
+                            type: type
+                        });
+                    } else {
+                        db.collection('Lifepacks').doc(selects[index].value).collection('Questions').add({
+                            nameQuestion: nameQuestion,
+                            desQuestion: descQuestion,
+                            listOptions,
+                            answer: answer,
+                            type: type
+                        });
+                    }
                 }
             }
         };
         if (timer != null) {
-            db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
-                nameQuestion: nameQuestion,
-                desQuestion: descQuestion,
-                timer: timer,
-                listOptions,
-                answer: answer,
-                type: type
-            }).then(() => {
-                window.location.href = "lifepack.php";
-            });
+            if (idDocQuestion != null) {
+                db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').doc(idDocQuestion).update({
+                    nameQuestion: nameQuestion,
+                    desQuestion: descQuestion,
+                    timer: timer,
+                    listOptions,
+                    answer: answer,
+                    type: type
+                }).then(() => {
+                    window.location.href = "lifepack.php";
+                });
+            } else {
+                db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
+                    nameQuestion: nameQuestion,
+                    desQuestion: descQuestion,
+                    timer: timer,
+                    listOptions,
+                    answer: answer,
+                    type: type
+                }).then(() => {
+                    window.location.href = "lifepack.php";
+                });
+            }
+
         } else {
-            db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
-                nameQuestion: nameQuestion,
-                desQuestion: descQuestion,
-                listOptions,
-                answer: answer,
-                type: type
-            }).then(() => {
-                window.location.href = "lifepack.php";
-            });
+            if (idDocQuestion != null) {
+                db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').doc(idDocQuestion).update({
+                    nameQuestion: nameQuestion,
+                    desQuestion: descQuestion,
+                    listOptions,
+                    answer: answer,
+                    type: type
+                }).then(() => {
+                    window.location.href = "lifepack.php";
+                });
+            } else {
+                db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
+                    nameQuestion: nameQuestion,
+                    desQuestion: descQuestion,
+                    listOptions,
+                    answer: answer,
+                    type: type
+                }).then(() => {
+                    window.location.href = "lifepack.php";
+                });
+            }
+
         }
 
     });
@@ -228,34 +277,62 @@ if (btnImg != null) {
             listOptions.push(quantOptions[index].querySelector('input').value);
         }
         if (blankQuestion == ' ') {
-            db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
-                nameQuestion: nameQuestion,
-                desQuestion: descQuestion,
-                listOptions,
-                image: url,
-                answer: answer,
-                type: type
-            }).then(() => {
-                window.location.href = "lifepack.php";
-            });
+            if (idDocQuestion != null) {
+                db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').doc(idDocQuestion).update({
+                    nameQuestion: nameQuestion,
+                    desQuestion: descQuestion,
+                    listOptions,
+                    image: url,
+                    answer: answer,
+                    type: type
+                }).then(() => {
+                    window.location.href = "lifepack.php";
+                });
+            } else {
+                db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
+                    nameQuestion: nameQuestion,
+                    desQuestion: descQuestion,
+                    listOptions,
+                    image: url,
+                    answer: answer,
+                    type: type
+                }).then(() => {
+                    window.location.href = "lifepack.php";
+                });
+            }
+
         } else {
-            db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
-                nameQuestion: nameQuestion,
-                desQuestion: descQuestion,
-                blankQuestion: blankQuestion,
-                image: url,
-                answer: answer,
-                type: type
-            }).then(() => {
-                window.location.href = "lifepack.php";
-            });
+            if (idDocQuestion != null) {
+                db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').doc(idDocQuestion).update({
+                    nameQuestion: nameQuestion,
+                    desQuestion: descQuestion,
+                    blankQuestion: blankQuestion,
+                    image: url,
+                    answer: answer,
+                    type: type
+                }).then(() => {
+                    window.location.href = "lifepack.php";
+                });
+            } else {
+                db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
+                    nameQuestion: nameQuestion,
+                    desQuestion: descQuestion,
+                    blankQuestion: blankQuestion,
+                    image: url,
+                    answer: answer,
+                    type: type
+                }).then(() => {
+                    window.location.href = "lifepack.php";
+                });
+            }
+
         }
 
     });
 }
 
 
-//if input form is type Range Slide
+//if input form is type Range Slide	
 if (btnRangeSlide != null) {
     btnRangeSlide.addEventListener('click', async(e) => {
         e.preventDefault();
@@ -270,19 +347,39 @@ if (btnRangeSlide != null) {
         var valueStringFinal = document.querySelector('#valueStringFinal').value;
         var answer = document.querySelector('#answer').value;
 
-        db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
-            nameQuestion: nameQuestion,
-            desQuestion: descQuestion,
-            valueInitial: valueInitial,
-            valueFinal: valueFinal,
-            valueStringInitial: valueStringInitial,
-            valueStringMedium: valueStringMedium,
-            valueStringFinal: valueStringFinal,
-            answer: answer,
-            type: type
-        }).then(() => {
-            window.location.href = "lifepack.php";
-        });
+        if (idDocQuestion != null) {
+            db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').doc(idDocQuestion).update({
+                nameQuestion: nameQuestion,
+                desQuestion: descQuestion,
+                valueInitial: valueInitial,
+                valueFinal: valueFinal,
+                valueStringInitial: valueStringInitial,
+                valueStringMedium: valueStringMedium,
+                valueStringFinal: valueStringFinal,
+                answer: answer,
+                type: type
+            }).then(() => {
+                localStorage.removeItem('idDocQuestion');
+                sessionStorage.removeItem('option');
+                window.location.href = "lifepack.php";
+            });
+        } else {
+            db.collection('Lifepacks').doc(localStorage.getItem('dataId')).collection('Questions').add({
+                nameQuestion: nameQuestion,
+                desQuestion: descQuestion,
+                valueInitial: valueInitial,
+                valueFinal: valueFinal,
+                valueStringInitial: valueStringInitial,
+                valueStringMedium: valueStringMedium,
+                valueStringFinal: valueStringFinal,
+                answer: answer,
+                type: type
+            }).then(() => {
+                window.location.href = "lifepack.php";
+            });
+        }
+
+
     });
 }
 
